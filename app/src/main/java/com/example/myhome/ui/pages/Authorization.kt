@@ -66,7 +66,8 @@ fun Authorization(navController: NavController, mainPage: MainPage) {
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
                 onClick = {
-                    if (username.value == "admin" && password.value == "123") {
+                    val auth = com.example.myhome.model.Authorization()
+                    if (auth.check(username.value,password.value)){
                         navController.navigate("main")
                     }
                 },

@@ -18,6 +18,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -28,9 +29,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.myhome.ui.alerts.AlertInfoScenario
 
 @Composable
-fun ItemScenario(scenario: Scenario, scenarios: SnapshotStateList<Scenario>) {
+fun ItemScenario(
+    scenario: Scenario,
+    scenarios: SnapshotStateList<Scenario>,
+    navController: NavController,
+    mainScenario: MutableState<Scenario>
+) {
     Card(
         modifier = Modifier
             .padding(3.dp)
@@ -52,7 +60,7 @@ fun ItemScenario(scenario: Scenario, scenarios: SnapshotStateList<Scenario>) {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (openDialog.value) {
-                    //AlertRenameDevice(openDialog = openDialog, device = item, devices)
+                    AlertInfoScenario(openDialog, scenario, scenarios, navController, mainScenario)
                 }
                 Image(
                     painter = painterResource(id = scenario.imgId),

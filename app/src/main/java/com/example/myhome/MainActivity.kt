@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myhome.model.Buld
+import com.example.myhome.model.Device
 import com.example.myhome.model.Home
 import com.example.myhome.model.MainPage
 import com.example.myhome.model.Scenario
@@ -39,10 +40,14 @@ class MainActivity : ComponentActivity() {
                 mutableStateListOf<Home>()
             }
 
+            val mainScenario = remember {
+                mutableStateOf(Scenario(1, "Новый сценарий", "Описание", mutableStateListOf()))
+            }
+
             val scenarios = remember {
                 mutableStateListOf<Scenario>(
-                    Scenario(1, "Сценарий", "Начи ничего не делает"),
-                    Scenario(2, "Сценарий", "Начи ничего не делает")
+                    Scenario(1, "Сценарий", "Ничего не делает", mutableStateListOf<Device>()),
+                    Scenario(2, "Сценарий", "Ничего не делает", mutableStateListOf<Device>())
                 )
             }
 
@@ -80,10 +85,10 @@ class MainActivity : ComponentActivity() {
                     Authorization(navController, mainPage)
                 }
                 composable("scen") {
-                    Scenarios(navController, mainPage)
+                    Scenarios(navController, mainPage, mainScenario)
                 }
-                composable("addScen") {
-                    SettingScenarios(navController, mainPage)
+                composable("settingScen") {
+                    SettingScenarios(navController, mainPage, mainScenario)
                 }
             }
         }

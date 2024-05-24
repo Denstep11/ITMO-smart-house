@@ -34,7 +34,7 @@ import com.example.myhome.model.Home
 import com.example.myhome.model.MainPage
 
 @Composable
-fun Main(navController: NavController, mainPage: MainPage ) {
+fun Main(navController: NavController, mainPage: MainPage) {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()

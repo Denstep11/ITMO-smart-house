@@ -14,6 +14,7 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,15 +22,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myhome.model.MainPage
+import com.example.myhome.model.Scenario
 import com.example.myhome.ui.components.DrawerContent
-import com.example.myhome.ui.components.ItemAddDeviceButton
 import com.example.myhome.ui.components.ItemAddScenarioButton
-import com.example.myhome.ui.components.ItemDevice
 import com.example.myhome.ui.components.ItemScenario
 import com.example.myhome.ui.components.ItemTopBar
 
 @Composable
-fun Scenarios(navController: NavController, mainPage: MainPage){
+fun Scenarios(
+    navController: NavController,
+    mainPage: MainPage,
+    mainScenario: MutableState<Scenario>
+) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -56,7 +60,12 @@ fun Scenarios(navController: NavController, mainPage: MainPage){
                         modifier = Modifier.weight(5f)
                     ) {
                         items(mainPage.mainHome.value.scenarios) { scenario ->
-                            ItemScenario(scenario, mainPage.mainHome.value.scenarios)
+                            ItemScenario(
+                                scenario,
+                                mainPage.mainHome.value.scenarios,
+                                navController,
+                                mainScenario
+                            )
                         }
                         item {
                             Spacer(modifier = Modifier.height(60.dp))
@@ -64,7 +73,11 @@ fun Scenarios(navController: NavController, mainPage: MainPage){
                     }
 
                 }
-                    ItemAddScenarioButton(mainPage.mainHome.value.scenarios, navController)
+                ItemAddScenarioButton(
+                    mainPage.mainHome.value.scenarios,
+                    navController,
+                    mainScenario
+                )
             }
         }
     }

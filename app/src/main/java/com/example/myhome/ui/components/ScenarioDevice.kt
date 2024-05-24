@@ -25,13 +25,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.myhome.ui.alerts.AlertRenameDevice
 import com.example.myhome.interfaces.MachineMode
 import com.example.myhome.interfaces.Temperature
 import com.example.myhome.model.Device
+import com.example.myhome.ui.alerts.AlertRenameDevice
 
 @Composable
-fun ItemDevice(item: Device, devices: SnapshotStateList<Device>) {
+fun ScenarioDevice(item: Device, devices: SnapshotStateList<Device>) {
     Card(
         modifier = Modifier
             .padding(3.dp)
@@ -53,7 +53,7 @@ fun ItemDevice(item: Device, devices: SnapshotStateList<Device>) {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (openDialog.value) {
-                    AlertRenameDevice(openDialog = openDialog, device = item, devices, false)
+                    AlertRenameDevice(openDialog = openDialog, device = item, devices, true)
                 }
                 Image(
                     painter = painterResource(id = item.imgId),
