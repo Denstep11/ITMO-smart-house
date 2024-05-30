@@ -1,4 +1,4 @@
-package com.example.myhome.ui.components
+package com.example.myhome.ui.components.scenario
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -30,12 +30,7 @@ import com.example.myhome.R
 import com.example.myhome.model.Device
 import com.example.myhome.model.Scenario
 import com.example.myhome.model.ScenarioMode
-import com.example.myhome.ui.alerts.AlertSetCondition
-import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
-import com.maxkeppeler.sheets.clock.ClockDialog
-import com.maxkeppeler.sheets.clock.models.ClockConfig
-import com.maxkeppeler.sheets.clock.models.ClockSelection
-import java.time.LocalTime.of
+import com.example.myhome.ui.alerts.scenario.AlertSetCondition
 
 @SuppressLint("NewApi")
 @OptIn(ExperimentalMaterial3Api::class)

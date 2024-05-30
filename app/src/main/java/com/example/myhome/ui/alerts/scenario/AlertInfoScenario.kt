@@ -1,6 +1,5 @@
-package com.example.myhome.ui.alerts
+package com.example.myhome.ui.alerts.scenario
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,14 +32,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myhome.interfaces.MachineMode
-import com.example.myhome.ui.components.SetMode
-import com.example.myhome.ui.components.SetTemperature
-import com.example.myhome.interfaces.Temperature
-import com.example.myhome.model.Device
+import androidx.navigation.NavController
+import com.example.myhome.model.Scenario
 
 @Composable
-fun AlertRenameDevice(openDialog: MutableState<Boolean>, device: Device, devices: SnapshotStateList<Device>, isInScenario: Boolean) {
+fun AlertInfoScenario(
+    openDialog: MutableState<Boolean>,
+    scenario: Scenario,
+    scenarios: SnapshotStateList<Scenario>,
+    navController: NavController,
+    mainScenario: MutableState<Scenario>
+) {
     val openSetting = remember { mutableStateOf(false) }
     AlertDialog(
         onDismissRequest = { openDialog.value = false },
@@ -53,7 +55,7 @@ fun AlertRenameDevice(openDialog: MutableState<Boolean>, device: Device, devices
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
                     onClick = {
                         openDialog.value = false
-                        devices.remove(device)
+                        scenarios.remove(scenario)
                     }
                 ) {
                     Text("Удалить", fontSize = 22.sp)
@@ -75,29 +77,29 @@ fun AlertRenameDevice(openDialog: MutableState<Boolean>, device: Device, devices
                     modifier = Modifier.width(190.dp),
                     softWrap = false,
                     overflow = TextOverflow.Ellipsis,
-                    text = device.name,
+                    text = scenario.name,
                     textAlign = TextAlign.Center,
                 )
-                if(!isInScenario){
-                    Button(
-                        onClick = {
-                            openSetting.value = true;
-                        }) {
-                        Icon(
-                            Icons.Filled.Settings,
-                            contentDescription = "Настройка устройсва",
-                        )
-                    }
+                Button(
+                    onClick = {
+                        mainScenario.value = scenario
+                        openSetting.value = true
+                    }) {
+                    Icon(
+                        Icons.Filled.Settings,
+                        contentDescription = "Настройка устройсва",
+                    )
                 }
             }
         },
         text = {
             if (openSetting.value) {
-                SettingDevice(openSetting = openSetting, device = device)
+                mainScenario.value = scenario
+                navController.navigate("settingScen")
             }
             Column {
-                val messageName = remember { mutableStateOf(device.name) }
-                val messageDescription = remember { mutableStateOf(device.description) }
+                val messageName = remember { mutableStateOf(scenario.name) }
+                val messageDescription = remember { mutableStateOf(scenario.description) }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -105,7 +107,7 @@ fun AlertRenameDevice(openDialog: MutableState<Boolean>, device: Device, devices
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Image(
-                        painter = painterResource(id = device.imgId),
+                        painter = painterResource(id = scenario.imgId),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -115,22 +117,13 @@ fun AlertRenameDevice(openDialog: MutableState<Boolean>, device: Device, devices
                 }
                 Row {
                     Text(fontWeight = FontWeight.Bold, text = "Название: ")
-                    Text(text = device.name)
+                    Text(text = scenario.name)
                 }
                 Row(
                     modifier = Modifier.padding(vertical = 15.dp)
                 ) {
                     Text(fontWeight = FontWeight.Bold, text = "Описание: ")
-                    Text(text = device.description)
-                }
-                when (device) {
-                    is Temperature -> {
-                        SetTemperature(device as Temperature)
-                        Log.d("Temp 2:", device.temperature.toString())
-                    }
-                    is MachineMode -> {
-                        SetMode(device as MachineMode)
-                    }
+                    Text(text = scenario.description)
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.example.myhome.ui.alerts
+package com.example.myhome.ui.alerts.scenario
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -22,27 +22,13 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myhome.model.Buld
-import com.example.myhome.model.Button
-import com.example.myhome.model.CoffeeMachine
-import com.example.myhome.model.Conditioner
 import com.example.myhome.model.Device
-import com.example.myhome.model.Dishwasher
-import com.example.myhome.model.Kettle
-import com.example.myhome.model.LeakSensor
-import com.example.myhome.model.MotionSensor
-import com.example.myhome.model.OpeningSensor
 import com.example.myhome.model.Scenario
 import com.example.myhome.model.ScenarioMode
-import com.example.myhome.model.TemperatureSensor
-import com.example.myhome.model.WashingMachine
-import com.example.myhome.model.YandexStation
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockConfig
 import com.maxkeppeler.sheets.clock.models.ClockSelection
-import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
-import com.maxkeppeler.sheets.clock.ClockDialog
 import java.time.LocalTime.of
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,7 +59,6 @@ fun AlertSetCondition(openDialog: MutableState<Boolean>, newScenario: MutableSta
                         .padding(10.dp)
                         .fillMaxWidth()
                         .clickable {
-                            newScenario.value.mode = ScenarioMode.TIME
                             openTime.value = true
                         },
                     shape = RoundedCornerShape(15.dp),
@@ -92,6 +77,7 @@ fun AlertSetCondition(openDialog: MutableState<Boolean>, newScenario: MutableSta
                                 selection = ClockSelection.HoursMinutes { hours, minutes ->
                                     selectedTime.value = of(hours, minutes, 0)
                                     newScenario.value.modeDescription.value = selectedTime.value.toString()
+                                    newScenario.value.mode = ScenarioMode.TIME
                                 },
                                 config = ClockConfig(
                                     boundary = of(0, 0, 0)..of(12, 59, 0),
@@ -107,7 +93,6 @@ fun AlertSetCondition(openDialog: MutableState<Boolean>, newScenario: MutableSta
                         .padding(10.dp)
                         .fillMaxWidth()
                         .clickable {
-                            newScenario.value.mode = ScenarioMode.SENSOR
                             openSensor.value = true
                         },
                     shape = RoundedCornerShape(15.dp),

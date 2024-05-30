@@ -1,4 +1,4 @@
-package com.example.myhome.ui.components
+package com.example.myhome.ui.components.device
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -25,7 +25,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.myhome.ui.alerts.AlertRenameDevice
+import com.example.myhome.ui.alerts.device.AlertRenameDevice
 import com.example.myhome.interfaces.MachineMode
 import com.example.myhome.interfaces.Temperature
 import com.example.myhome.model.Device

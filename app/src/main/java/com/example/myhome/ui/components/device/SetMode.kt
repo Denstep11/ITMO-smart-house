@@ -1,4 +1,4 @@
-package com.example.myhome.ui.components
+package com.example.myhome.ui.components.device
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row

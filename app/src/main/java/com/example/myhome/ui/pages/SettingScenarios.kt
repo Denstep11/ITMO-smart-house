@@ -20,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,12 +30,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myhome.model.MainPage
 import com.example.myhome.model.Scenario
-import com.example.myhome.ui.alerts.AlertAddDeviceInScenario
-import com.example.myhome.ui.components.ItemDevice
-import com.example.myhome.ui.components.ItemSaveScenarioButton
-import com.example.myhome.ui.components.ScenarioCondition
-import com.example.myhome.ui.components.ScenarioDevice
-import com.example.myhome.ui.components.SettingScenarioTopBar
+import com.example.myhome.ui.alerts.scenario.AlertAddDeviceInScenario
+import com.example.myhome.ui.components.scenario.ItemSaveScenarioButton
+import com.example.myhome.ui.components.scenario.ScenarioCondition
+import com.example.myhome.ui.components.scenario.ScenarioDevice
+import com.example.myhome.ui.components.scenario.SettingScenarioTopBar
 
 @Composable
 fun SettingScenarios(

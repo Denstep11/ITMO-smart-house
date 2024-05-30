@@ -24,8 +24,8 @@ import androidx.navigation.NavController
 import com.example.myhome.model.MainPage
 import com.example.myhome.model.Scenario
 import com.example.myhome.ui.components.DrawerContent
-import com.example.myhome.ui.components.ItemAddScenarioButton
-import com.example.myhome.ui.components.ItemScenario
+import com.example.myhome.ui.components.scenario.ItemAddScenarioButton
+import com.example.myhome.ui.components.scenario.ItemScenario
 import com.example.myhome.ui.components.ItemTopBar
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.myhome.ui.components
+package com.example.myhome.ui.components.device
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -17,7 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.myhome.ui.alerts.AlertAddDevices
+import com.example.myhome.ui.alerts.device.AlertAddDevices
 import com.example.myhome.model.Device
 
 @Composable

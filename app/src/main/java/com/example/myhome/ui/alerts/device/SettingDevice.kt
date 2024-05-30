@@ -1,7 +1,9 @@
-package com.example.myhome.ui.alerts
+package com.example.myhome.ui.alerts.device
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,60 +12,47 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.example.myhome.model.Scenario
+import com.example.myhome.model.Device
 
 @Composable
-fun AlertInfoScenario(
-    openDialog: MutableState<Boolean>,
-    scenario: Scenario,
-    scenarios: SnapshotStateList<Scenario>,
-    navController: NavController,
-    mainScenario: MutableState<Scenario>
-) {
-    val openSetting = remember { mutableStateOf(false) }
+fun SettingDevice(openSetting: MutableState<Boolean>, device: Device) {
+    var newName = device.name
+    var newDescription = device.description
     AlertDialog(
-        onDismissRequest = { openDialog.value = false },
+        onDismissRequest = { openSetting.value = false },
         confirmButton = {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                horizontalArrangement = Arrangement.Center
             ) {
                 Button(
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
                     onClick = {
-                        openDialog.value = false
-                        scenarios.remove(scenario)
+                        openSetting.value = false
+                        device.name = newName
+                        device.description = newDescription
                     }
                 ) {
-                    Text("Удалить", fontSize = 22.sp)
-                }
-                Button(
-                    onClick = { openDialog.value = false }
-                ) {
-                    Text("OK", fontSize = 22.sp)
+                    Text("Сохранить", fontSize = 22.sp)
                 }
             }
         },
@@ -76,54 +65,56 @@ fun AlertInfoScenario(
                 Text(
                     modifier = Modifier.width(190.dp),
                     softWrap = false,
-                    overflow = TextOverflow.Ellipsis,
-                    text = scenario.name,
+                    text = device.name,
                     textAlign = TextAlign.Center,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Button(
                     onClick = {
-                        mainScenario.value = scenario
-                        openSetting.value = true
+                        openSetting.value = false
                     }) {
                     Icon(
-                        Icons.Filled.Settings,
-                        contentDescription = "Настройка устройсва",
+                        Icons.Filled.ArrowBack,
+                        contentDescription = "Выход",
                     )
                 }
             }
         },
         text = {
-            if (openSetting.value) {
-                mainScenario.value = scenario
-                navController.navigate("settingScen")
-            }
             Column {
-                val messageName = remember { mutableStateOf(scenario.name) }
-                val messageDescription = remember { mutableStateOf(scenario.description) }
+                val messageName = remember { mutableStateOf(device.name) }
+                val messageDescription = remember { mutableStateOf(device.description) }
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 20.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Image(
-                        painter = painterResource(id = scenario.imgId),
+                        painter = painterResource(id = device.imgId),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
+                            .padding(8.dp)
                             .size(100.dp)
                             .clip(CircleShape)
                     )
                 }
                 Row {
-                    Text(fontWeight = FontWeight.Bold, text = "Название: ")
-                    Text(text = scenario.name)
+                    TextField(
+                        value = messageName.value,
+                        onValueChange = { newText ->
+                            messageName.value = newText
+                            newName = newText
+                        })
                 }
                 Row(
                     modifier = Modifier.padding(vertical = 15.dp)
                 ) {
-                    Text(fontWeight = FontWeight.Bold, text = "Описание: ")
-                    Text(text = scenario.description)
+                    TextField(
+                        value = messageDescription.value,
+                        onValueChange = { newText ->
+                            messageDescription.value = newText
+                            newDescription = newText
+                        })
                 }
             }
         }

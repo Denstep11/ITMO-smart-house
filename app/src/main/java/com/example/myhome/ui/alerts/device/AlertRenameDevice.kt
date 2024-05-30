@@ -1,9 +1,8 @@
-package com.example.myhome.ui.alerts
+package com.example.myhome.ui.alerts.device
 
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,47 +11,57 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myhome.interfaces.MachineMode
+import com.example.myhome.ui.components.device.SetMode
+import com.example.myhome.ui.components.device.SetTemperature
+import com.example.myhome.interfaces.Temperature
 import com.example.myhome.model.Device
 
 @Composable
-fun SettingDevice(openSetting: MutableState<Boolean>, device: Device) {
-    var newName = device.name
-    var newDescription = device.description
+fun AlertRenameDevice(openDialog: MutableState<Boolean>, device: Device, devices: SnapshotStateList<Device>, isInScenario: Boolean) {
+    val openSetting = remember { mutableStateOf(false) }
     AlertDialog(
-        onDismissRequest = { openSetting.value = false },
+        onDismissRequest = { openDialog.value = false },
         confirmButton = {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
                     onClick = {
-                        openSetting.value = false
-                        device.name = newName
-                        device.description = newDescription
+                        openDialog.value = false
+                        devices.remove(device)
                     }
                 ) {
-                    Text("Сохранить", fontSize = 22.sp)
+                    Text("Удалить", fontSize = 22.sp)
+                }
+                Button(
+                    onClick = { openDialog.value = false }
+                ) {
+                    Text("OK", fontSize = 22.sp)
                 }
             }
         },
@@ -65,27 +74,34 @@ fun SettingDevice(openSetting: MutableState<Boolean>, device: Device) {
                 Text(
                     modifier = Modifier.width(190.dp),
                     softWrap = false,
+                    overflow = TextOverflow.Ellipsis,
                     text = device.name,
                     textAlign = TextAlign.Center,
-                    overflow = TextOverflow.Ellipsis
                 )
-                Button(
-                    onClick = {
-                        openSetting.value = false
-                    }) {
-                    Icon(
-                        Icons.Filled.ArrowBack,
-                        contentDescription = "Выход",
-                    )
+                if(!isInScenario){
+                    Button(
+                        onClick = {
+                            openSetting.value = true;
+                        }) {
+                        Icon(
+                            Icons.Filled.Settings,
+                            contentDescription = "Настройка устройсва",
+                        )
+                    }
                 }
             }
         },
         text = {
+            if (openSetting.value) {
+                SettingDevice(openSetting = openSetting, device = device)
+            }
             Column {
                 val messageName = remember { mutableStateOf(device.name) }
                 val messageDescription = remember { mutableStateOf(device.description) }
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Image(
@@ -93,28 +109,28 @@ fun SettingDevice(openSetting: MutableState<Boolean>, device: Device) {
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
-                            .padding(8.dp)
                             .size(100.dp)
                             .clip(CircleShape)
                     )
                 }
                 Row {
-                    TextField(
-                        value = messageName.value,
-                        onValueChange = { newText ->
-                            messageName.value = newText
-                            newName = newText
-                        })
+                    Text(fontWeight = FontWeight.Bold, text = "Название: ")
+                    Text(text = device.name)
                 }
                 Row(
                     modifier = Modifier.padding(vertical = 15.dp)
                 ) {
-                    TextField(
-                        value = messageDescription.value,
-                        onValueChange = { newText ->
-                            messageDescription.value = newText
-                            newDescription = newText
-                        })
+                    Text(fontWeight = FontWeight.Bold, text = "Описание: ")
+                    Text(text = device.description)
+                }
+                when (device) {
+                    is Temperature -> {
+                        SetTemperature(device as Temperature)
+                        Log.d("Temp 2:", device.temperature.toString())
+                    }
+                    is MachineMode -> {
+                        SetMode(device as MachineMode)
+                    }
                 }
             }
         }

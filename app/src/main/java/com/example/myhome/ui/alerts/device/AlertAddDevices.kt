@@ -1,6 +1,5 @@
-package com.example.myhome.ui.alerts
+package com.example.myhome.ui.alerts.device
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

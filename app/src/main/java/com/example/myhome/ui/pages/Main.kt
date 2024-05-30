@@ -14,23 +14,16 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.myhome.model.Buld
 import com.example.myhome.ui.components.DrawerContent
-import com.example.myhome.ui.components.ItemAddDeviceButton
-import com.example.myhome.ui.components.ItemDevice
+import com.example.myhome.ui.components.device.ItemAddDeviceButton
+import com.example.myhome.ui.components.device.ItemDevice
 import com.example.myhome.ui.components.ItemTopBar
-import com.example.myhome.model.Device
-import com.example.myhome.model.Home
 import com.example.myhome.model.MainPage
 
 @Composable

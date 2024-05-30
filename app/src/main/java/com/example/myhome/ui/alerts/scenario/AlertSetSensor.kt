@@ -1,6 +1,5 @@
-package com.example.myhome.ui.alerts
+package com.example.myhome.ui.alerts.scenario
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -18,7 +17,8 @@ import androidx.compose.ui.unit.sp
 import com.example.myhome.interfaces.Sensor
 import com.example.myhome.model.Device
 import com.example.myhome.model.Scenario
-import com.example.myhome.ui.components.ItemDeviceInScenarioAlert
+import com.example.myhome.model.ScenarioMode
+import com.example.myhome.ui.components.scenario.ItemDeviceInScenarioAlert
 
 @Composable
 fun AlertSetSensor(
@@ -48,6 +48,7 @@ fun AlertSetSensor(
                     if (device is Sensor) {
                         Row(modifier = Modifier.clickable {
                             newScenario.value.modeDescription.value = device.name
+                            newScenario.value.mode = ScenarioMode.SENSOR
                             openDialog.value = false
                         }) {
                             ItemDeviceInScenarioAlert(device)

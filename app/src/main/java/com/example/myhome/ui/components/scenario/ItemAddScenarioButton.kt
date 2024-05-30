@@ -1,4 +1,4 @@
-package com.example.myhome.ui.components
+package com.example.myhome.ui.components.scenario
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -21,22 +21,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.myhome.model.Device
 import com.example.myhome.model.Scenario
-import com.example.myhome.ui.alerts.AlertAddDevices
-import com.example.myhome.ui.pages.Authorization
-import com.example.myhome.ui.pages.Main
-import com.example.myhome.ui.pages.Registration
-import com.example.myhome.ui.pages.Scenarios
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun ItemAddScenarioButton(scenarios: SnapshotStateList<Scenario>, navController: NavController, mainScenario: MutableState<Scenario>) {
-
-    mainScenario.value = Scenario(scenarios.last().id+1, "Новый сценарий", "Описание", mutableStateListOf())
+    if(scenarios.isEmpty()){
+        mainScenario.value = Scenario(1, "Новый сценарий", "Описание", mutableStateListOf())
+    }
+    else{
+        mainScenario.value = Scenario(scenarios.last().id+1, "Новый сценарий", "Описание", mutableStateListOf())
+    }
     val openDialog = remember { mutableStateOf(false) }
     Box(
         modifier = Modifier

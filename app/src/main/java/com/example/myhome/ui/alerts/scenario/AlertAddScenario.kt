@@ -1,4 +1,4 @@
-package com.example.myhome.ui.alerts
+package com.example.myhome.ui.alerts.scenario
 
 import androidx.compose.runtime.Composable
 

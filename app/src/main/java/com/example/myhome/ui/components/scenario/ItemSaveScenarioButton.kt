@@ -1,4 +1,4 @@
-package com.example.myhome.ui.components
+package com.example.myhome.ui.components.scenario
 
 import android.util.Log
 import androidx.compose.foundation.background
